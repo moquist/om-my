@@ -81,3 +81,11 @@
  app-state
  {:target (. js/document (getElementById "heading"))})
 
+(om/root
+ (fn [app owner]
+   (reify
+     om/IRender
+     (render [_]
+       (display-list (map :name (:abridged_cast app))))))
+ app-state
+ {:target (. js/document (getElementById "abridged_cast"))})

@@ -10,7 +10,10 @@
 
 ;; define your app data so that it doesn't get over-written on reload
 
-(defonce app-state (atom {:text "Go to your figwheel repl and run (om-my.core/get-movie \"The Sting\")"}))
+(defonce app-state
+  (atom {:text "Go to your figwheel repl and run (om-my.core/get-movie-by-title \"The Sting\")"
+         :abridged_cast []
+         :cast []}))
 
 (defn get-movie [title]
   (let [title (url-encode title)]

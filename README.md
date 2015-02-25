@@ -9,6 +9,6 @@
 1. In one terminal (your REPL terminal):
  1. ```cd``` into this repo
  1. ```rlwrap lein figwheel```
-1. Open http://localhost:<port#> in your browser (preferably Chrome for source-mapping), and open the developer console.
+1. Open ```http://localhost:<port#>``` in your browser (preferably Chrome for source-mapping), and open the developer console.
  1. Back in your REPL terminal, you should now have a prompt. Try this: ```=> (get-movie "The Sting")```
 1. Edit ```src/cljs/om_my/core.cljs``` in your favorite editor.

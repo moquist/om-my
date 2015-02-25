@@ -52,7 +52,6 @@
 
 (defroutes routes
   (POST "/rt" {edn-body :edn-body} (rt-fetch! edn-body))
-  (POST "/rt2" req (do (println :req req) {:status 200}))
   (route/files "/" {:root "resources/public"}))
 
 (def handler

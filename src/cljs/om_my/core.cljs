@@ -18,6 +18,7 @@
      {:method :post
       :url "/rt"
       :data (str "movies.json?q=" title)
+      :on-error (fn [response] (println response))
       :on-complete (fn [response] (reset! app-state {:movie response}))})))
 
 (defn display-list [items]

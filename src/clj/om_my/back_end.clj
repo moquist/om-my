@@ -14,18 +14,28 @@
    :headers {"Content-Type" "application/edn"}
    :body (pr-str data)})
 
+(defn get-api-key []
+  (if-let [api-key (System/getenv "RT_API_KEY")]
+    (when (< 0 (count api-key))
+      api-key)))
+
 (def api-base "http://api.rottentomatoes.com/api/public/v1.0/")
-(defn rt-fetch! [query]
-  (let [api-key (System/getenv "RT_API_KEY")
-        ;; graciously eat leading & and ?
-        query (str/replace query #"^/" "")
-        url (str api-base query "&apikey=" api-key)]
-    (-> url
-        http/get
-        deref
-        :body
-        (parse-string true)
-        pr-str)))
+(defn rt-fetch!
+  "Takes a query string that completes the URL. The apikey is added
+  from the environment variable RT_API_KEY, which must be set."
+  [query]
+  (if-let [api-key (get-api-key)]
+    (let [;; graciously eat leading /
+          query (str/replace query #"^/" "")
+          url (str api-base query "&apikey=" api-key)]
+      (-> url
+          http/get
+          deref
+          :body
+          (parse-string true)
+          pr-str))
+    {:status 500
+     :body "Missing RT_API_KEY environment variable. Set it and restart your REPL."}))
 
 (defn read-inputstream-edn [input]
   (edn/read

@@ -15,34 +15,69 @@
          :abridged_cast []
          :cast []}))
 
-(defn get-movie [title]
+
+(defn display-list [items]
+  (apply dom/ul #js {:title "This is how you set attributes."}
+         (map #(dom/li nil %) items)))
+
+(defn get-movie-response-key
+  "Take a response from a query to /movies.json, assume the first
+  listed movie is the correct one, and return the given 'k from the
+  map for that movie.
+
+  Available keys include:
+  :posters
+  :abridged_cast
+  :release_dates
+  :alternate_ids
+  :title
+  :year
+  :id
+  :runtime
+  :critics_consensus
+  :synopsis
+  :ratings
+  :mpaa_rating
+  :links
+  "
+  [response k]
+  (-> response
+      :movies
+      first
+      k))
+
+(defn get-movie-by-title
+  "Query RT's movies.json endpoint for a movie by title.
+
+   After receiving a response, update app-state as following:
+     (:all @app-state) is the entire response
+     (:text @app-state) is the movie name
+     (:abridged_cast @app-state) is the abridged cast vector
+  "
+  [title]
   (let [title (url-encode title)]
     (utils/edn-xhr
      {:method :post
       :url "/rt"
       :data (str "movies.json?q=" title)
       :on-error (fn [response] (println response))
-      :on-complete (fn [response] (reset! app-state {:movie response}))})))
-
-(defn display-list [items]
-  (apply dom/ul nil
-         (map #(dom/li nil %) items)))
-
-(defn display-movie-abridged-cast [movie]
-  (let [cast (-> movie
-                 :movies
-                 first
-                 :abridged_cast)]
-    (display-list (map :name cast))))
+      :on-complete (fn [response]
+                     (om/update! (om/root-cursor app-state)
+                                 :all
+                                 response)
+                     (om/update! (om/root-cursor app-state)
+                                 :text
+                                 (get-movie-response-key response :title))
+                     (om/update! (om/root-cursor app-state)
+                                 :abridged_cast
+                                 (get-movie-response-key response :abridged_cast)))})))
 
 (om/root
-  (fn [data owner]
-    (reify om/IRender
-      (render [_]
-        (cond
-         (:text data) (dom/h1 nil (:text data))
-         (:movie data) (display-movie-abridged-cast (:movie data))))))
-  app-state
-  {:target (. js/document (getElementById "app"))})
-
+ (fn [app owner]
+   (reify
+     om/IRender
+     (render [_]
+       (dom/h1 nil (:text app)))))
+ app-state
+ {:target (. js/document (getElementById "heading"))})
 

@@ -38,7 +38,10 @@
 
   :figwheel {
              :http-server-root "public" ;; default and assumes "resources" 
-             :server-port 3449 ;; default
+
+             ;; LEIN_FIGWHEEL_PORT must be in CAPS in the environment or it WILL_NOT_WORK
+             :server-port ~(Long/parseLong (System/getenv "LEIN_FIGWHEEL_PORT"))
+
              :css-dirs ["resources/public/css"] ;; watch and update CSS
 
              ;; Start an nREPL server into the running figwheel process

@@ -47,11 +47,7 @@
   :figwheel {
              :http-server-root "public" ;; default and assumes "resources" 
 
-             ;; LEIN_FIGWHEEL_PORT must be in CAPS in the environment or it WILL_NOT_WORK
-             :server-port ~(let [port (System/getenv "LEIN_FIGWHEEL_PORT")]
-                             (if (< 0 (count port))
-                               (Long/parseLong port)
-                               (throw (Exception. (str "Missing LEIN_FIGWHEEL_PORT environment variable. Set it.")))))
+             :server-port 3449 ;; default
 
              :css-dirs ["resources/public/css"] ;; watch and update CSS
 

@@ -14,8 +14,6 @@ Tomatoes; this gets us around issues with [CORS](https://en.wikipedia.org/wiki/C
 
 1. Register at http://developer.rottentomatoes.com/ for an API key.
 1. ```export RT_API_KEY=<your key>```
-1. ```export LEIN_FIGWHEEL_HOST=<hostname>```
-1. ```export LEIN_FIGWHEEL_PORT=<port#>```
 1. Clone this repo.
 1. In one terminal (your REPL terminal):
  1. ```cd``` into this repo

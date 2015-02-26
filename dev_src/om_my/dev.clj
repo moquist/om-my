@@ -1,6 +1,11 @@
 (ns om-my.dev)
 
+(defmacro websocket-url-port []
+  (let [port (System/getenv (str "LEIN_FIGWHEEL_PORT"))]
+    (if (< 0 (count port))
+      (Long/parseLong port)
+      (throw (Exception. (str "Missing LEIN_FIGWHEEL_PORT environment variable. Set it."))))))
+
 (defmacro websocket-url []
-  (if-let [port (Long/parseLong (System/getenv "LEIN_FIGWHEEL_PORT"))]
-    (str "ws://localhost:" port  "/figwheel-ws")
-    (throw (Exception. "Missing LEIN_FIGWHEEL_PORT environment variable. Set it."))))
+  (let [port (websocket-url-port)]
+    (str "ws://localhost:" port  "/figwheel-ws")))

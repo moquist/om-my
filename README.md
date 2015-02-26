@@ -1,5 +1,7 @@
 # om-my
 
+# N.B.: Collaboration branch -- requires LEIN_FIGWHEEL_*.
+
 The focus of this collaboration starting-project is on:
 
 1. REPL interaction with the 'app-data atom in 'om-my.core

@@ -1,6 +1,6 @@
 # om-my
 
-# N.B.: Collaboration branch -- requires LEIN_FIGWHEEL_*.
+# N.B.: Collaboration branch -- requires LEIN_FIGWHEEL_* environment variables.
 
 The focus of this collaboration starting-project is on:
 

@@ -21,7 +21,7 @@
 
 (def api-base "http://api.rottentomatoes.com/api/public/v1.0/")
 (defn rt-fetch!
-  "Takes a query string that completes the URL. The apikey is added
+  "Takes a query string that completes the URL. The api-key is added
   from the environment variable RT_API_KEY, which must be set."
   [query]
   (if-let [api-key (get-api-key)]
